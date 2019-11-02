@@ -8,8 +8,8 @@
 </p>
 
 # Nuxed Environment
- 
-Nuxed Environment provides functions that help you manage environment variables.
+
+The Nuxed Environment component provides functions that help you manage environment variables.
 
 ### Installation
 
@@ -25,7 +25,7 @@ $ composer require nuxed/environment
 use namespace Nuxed\Environment;
 
 <<__EntryPoint>>
-async function main(): void {
+async function main(): Awaitable<void> {
   await Environment\load('.env');
 
   if(!Environment\contains('APP_MODE')) {
@@ -48,10 +48,10 @@ async function main(): void {
 
 ### Security
 
-For information on reporting security vulnerabilities in Nuxed Environment, see [SECURITY.md](SECURITY.md).
+For information on reporting security vulnerabilities in Nuxed, see [SECURITY.md](SECURITY.md).
 
 ---
 
 ### License
 
-The Nuxed Environment library is open-sourced software licensed under the MIT-licensed.
+Nuxed is open-sourced software licensed under the MIT-licensed.

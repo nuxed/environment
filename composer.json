@@ -1,7 +1,7 @@
 {
     "name": "nuxed/environment",
     "type": "library",
-    "description": "Nuxed Environment - Manage Environment variables with ease",
+    "description": "Nuxed Environment",
     "license": "MIT",
     "authors": [
         {
