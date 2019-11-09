@@ -16,7 +16,7 @@
     "require": {
         "hhvm": "^4.25",
         "hhvm/hsl": "^4.25",
-        "nuxed/filesystem": "^1.0"
+        "nuxed/filesystem": "^1.1"
     },
     "require-dev": {
         "facebook/fbexpect": "^2.7",
