@@ -88,10 +88,7 @@ class EnvironmentTest extends HackTest\HackTest {
   }
 
   <<HackTest\DataProvider('provideParseData')>>
-  public function testParse(
-    string $value,
-    (string, ?string) $expected
-  ): void {
+  public function testParse(string $value, (string, ?string) $expected): void {
     expect(Environment\parse($value))->toBeSame($expected);
   }
 
@@ -110,13 +107,19 @@ class EnvironmentTest extends HackTest\HackTest {
   public function testParseInvalidSquence(): void {
     expect(() ==> {
       Environment\parse('export FOO="BAR\\#X');
-    })->toThrow(Environment\Exception\InvalidArgumentException::class, 'an unexpected escape sequence');
+    })->toThrow(
+      Environment\Exception\InvalidArgumentException::class,
+      'an unexpected escape sequence',
+    );
   }
 
   public function testParseUnexceptedWhiteSpace(): void {
     expect(() ==> {
       Environment\parse('export FOO=BAR "FOO"');
-    })->toThrow(Environment\Exception\InvalidArgumentException::class, 'unexpected whitespace');
+    })->toThrow(
+      Environment\Exception\InvalidArgumentException::class,
+      'unexpected whitespace',
+    );
   }
 
   public function testMode(): void {
@@ -135,6 +138,26 @@ class EnvironmentTest extends HackTest\HackTest {
     Environment\put('APP_MODE', 'deV');
     expect(Environment\mode())
       ->toBeSame(Environment\Mode::Development);
+
+    Environment\put('APP_MODE', 'local');
+    expect(Environment\mode())
+      ->toBeSame(Environment\Mode::Local);
+
+    Environment\put('APP_MODE', 'develop');
+    expect(Environment\mode())
+      ->toBeSame(Environment\Mode::Development);
+
+    Environment\put('APP_MODE', 'Development');
+    expect(Environment\mode())
+      ->toBeSame(Environment\Mode::Development);
+
+    Environment\put('APP_MODE', 'production');
+    expect(Environment\mode())
+      ->toBeSame(Environment\Mode::Production);
+
+    Environment\put('APP_MODE', 'testing');
+    expect(Environment\mode())
+      ->toBeSame(Environment\Mode::Test);
 
     Environment\put('APP_MODE', 'unknown');
     expect(Environment\mode())
