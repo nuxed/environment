@@ -161,10 +161,10 @@ class EnvironmentTest extends HackTest\HackTest {
 
     Environment\put('APP_MODE', 'unknown');
     expect(Environment\mode())
-      ->toBeSame(Environment\Mode::Production);
+      ->toBeSame(null);
 
     Environment\forget('APP_MODE');
     expect(Environment\mode())
-      ->toBeSame(Environment\Mode::Production);
+      ->toBeSame(null);
   }
 }

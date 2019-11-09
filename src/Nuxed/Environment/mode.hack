@@ -5,20 +5,21 @@ use namespace HH\Lib\Str;
 /**
  * Retrieve the current applications mode based on the `APP_MODE` environment
  * variable.
- *
- * To be safe, in case the `APP_MODE` variable is not set,
- * this functions fails to Mode::Production
  */
-function mode(): Mode {
-  $mode = get('APP_MODE', 'prod') as nonnull
-    |> Str\lowercase($$);
-  if (Str\starts_with($mode, 'dev')) {
-    return Mode::Development;
+function mode(): ?Mode {
+  if (!contains('APP_MODE')) {
+    return null;
   }
 
-  if (Str\starts_with($mode, 'test')) {
-    return Mode::Test;
+  $mode = get('APP_MODE') as nonnull |> Str\lowercase($$);
+  $modes = Mode::getNames();
+
+  foreach ($modes as $value => $_) {
+    $name = (string)$value;
+    if ($mode === $name || Str\starts_with($mode, $name)) {
+      return $value;
+    }
   }
 
-  return Mode::Production;
+  return null;
 }
