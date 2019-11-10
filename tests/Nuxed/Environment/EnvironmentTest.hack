@@ -167,4 +167,41 @@ class EnvironmentTest extends HackTest\HackTest {
     expect(Environment\mode())
       ->toBeSame(null);
   }
+
+  public async function testBootstrap(): Awaitable<void> {
+    await Environment\bootstrap(__DIR__.'/env/dist/.env');
+    expect(Environment\contains('NE_DIST_LOADED'))
+      ->toBeTrue();
+
+    Environment\forget('APP_MODE');
+    await Environment\bootstrap(__DIR__.'/env/dev/.env');
+    expect(Environment\contains('NE_DEV_LOADED'))
+      ->toBeTrue();
+    expect(Environment\contains('NE_DEV_MODE_LOADED'))
+      ->toBeTrue();
+    expect(Environment\mode())
+      ->toBeSame(Environment\Mode::Development);
+
+    Environment\forget('APP_MODE');
+    await Environment\bootstrap(__DIR__.'/env/prod/.env');
+    expect(Environment\contains('NE_PROD_LOADED'))
+      ->toBeTrue();
+    expect(Environment\contains('NE_PROD_MODE_LOADED'))
+      ->toBeTrue();
+    expect(Environment\contains('NE_PROD_MODE_LOCAL_LOADED'))
+      ->toBeTrue();
+    expect(Environment\mode())
+      ->toBeSame(Environment\Mode::Production);
+
+    Environment\forget('APP_MODE');
+    await Environment\bootstrap(__DIR__.'/env/test/.env');
+    expect(Environment\contains('NE_TEST_LOADED'))
+      ->toBeTrue();
+    expect(Environment\contains('NE_TEST_MODE_LOADED'))
+      ->toBeTrue();
+    expect(Environment\contains('NE_TEST_MODE_LOCAL_LOADED'))
+      ->toBeFalse();
+    expect(Environment\mode())
+      ->toBeSame(Environment\Mode::Test);
+  }
 }
