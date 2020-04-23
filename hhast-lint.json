@@ -3,7 +3,8 @@
   "builtinLinters": "all",
   "disableAllAutoFixes": false,
   "disabledLinters": [
-    "Facebook\\HHAST\\Linters\\AsyncFunctionAndMethodLinter"
+    "Facebook\\HHAST\\AsyncFunctionAndMethodLinter",
+    "Facebook\\HHAST\\ShoutCaseEnumMembersLinter"
   ],
   "overrides": []
 }
