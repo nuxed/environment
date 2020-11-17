@@ -21,12 +21,24 @@ async function bootstrap(
   $dist = Filesystem\Path::create($path->toString().'.dist');
   if ($path->exists() || !$dist->exists()) {
     await load($path->toString());
-  } else {
+  } else if ($dist->exists()) {
     await load($dist->toString());
   }
 
-  $mode = mode();
-  if (null === $mode) {
+  try {
+    $mode = mode();
+  } catch (Exception\RuntimeException $exception) {
+    // Runtime exception can be thrown for two reasons:
+    // 1. the "APP_MODE" variable is missing
+    // 2. it contains an invalid value.
+    // in case it contains an invalid value, we throw the exception again.
+    if (
+      $exception->getCode() !== Exception\RuntimeException::MissingModeVariable
+    ) {
+      throw $exception;
+    }
+
+    // otherwise, we relay on the default mode provided.
     $mode = $defaultMode;
     put('APP_MODE', $mode);
   }

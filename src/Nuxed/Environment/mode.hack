@@ -6,9 +6,12 @@ use namespace HH\Lib\Str;
  * Retrieve the current applications mode based on the `APP_MODE` environment
  * variable.
  */
-function mode(): ?Mode {
+function mode(): Mode {
   if (!contains('APP_MODE')) {
-    return null;
+    throw new Exception\RuntimeException(
+      'Failed to determine application mode: "APP_MODE" variable is missing.',
+      Exception\RuntimeException::MissingModeVariable,
+    );
   }
 
   $mode = get('APP_MODE') as nonnull |> Str\lowercase($$);
@@ -21,5 +24,11 @@ function mode(): ?Mode {
     }
   }
 
-  return null;
+  throw new Exception\RuntimeException(
+    Str\format(
+      'Failed to determine application mode: invalid value for "APP_MODE" environment variable ( excepted "dev", "prod", "test", or "local", got "%s")',
+      $mode,
+    ),
+    Exception\RuntimeException::InvalidModeValue,
+  );
 }
