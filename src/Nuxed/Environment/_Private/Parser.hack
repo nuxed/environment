@@ -23,7 +23,7 @@ final abstract class Parser {
   public static function parseName(string $name): string {
     if ($name === '') {
       throw new Exception\InvalidArgumentException(
-        'Failed to parse environment variable name : name cannot be empty.',
+        'Failed to parse environment variable name, name cannot be empty.',
       );
     }
 
@@ -33,7 +33,7 @@ final abstract class Parser {
     if (!Regex\matches($name, re"~\A[a-zA-Z0-9_.]+\z~")) {
       throw new Exception\InvalidArgumentException(
         Str\format(
-          'Failed to parse environment variable name : an invalid name ( %s ).',
+          'Failed to parse environment variable name, unexpected character encountered ( %s ).',
           $name,
         ),
       );
