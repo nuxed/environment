@@ -159,13 +159,22 @@ class EnvironmentTest extends HackTest\HackTest {
     expect(Environment\mode())
       ->toBeSame(Environment\Mode::Test);
 
+
     Environment\put('APP_MODE', 'unknown');
-    expect(Environment\mode())
-      ->toBeSame(null);
+    expect(() ==> {
+      Environment\mode();
+    })->toThrow(
+      Environment\Exception\RuntimeException::class,
+      'Failed to determine application mode: invalid value for "APP_MODE" environment variable ( excepted "dev", "prod", "test", or "local", got "unknown")',
+    );
 
     Environment\forget('APP_MODE');
-    expect(Environment\mode())
-      ->toBeSame(null);
+    expect(() ==> {
+      Environment\mode();
+    })->toThrow(
+      Environment\Exception\RuntimeException::class,
+      'Failed to determine application mode: "APP_MODE" variable is missing.',
+    );
   }
 
   public async function testBootstrap(): Awaitable<void> {
