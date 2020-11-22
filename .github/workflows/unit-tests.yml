@@ -34,9 +34,6 @@ jobs:
           dependency-versions: ${{ matrix.dependencies }}
           composer-options: "${{ matrix.composer-options }}"
 
-      - name: "dumping autoloader"
-        run: "hhvm vendor/bin/hh-autoload"
-
       - name: "running unit tests"
         continue-on-error: ${{ matrix.experimental }}
         run: "hhvm vendor/bin/hacktest tests"
