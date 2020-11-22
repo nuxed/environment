@@ -34,6 +34,9 @@ jobs:
           dependency-versions: ${{ matrix.dependencies }}
           composer-options: "${{ matrix.composer-options }}"
 
+      - name: "dumping autoloader"
+        run: "hhvm vendor/bin/hh-autoload"
+
       - name: "running static analysis"
         continue-on-error: ${{ matrix.experimental }}
         run: "hh_client"
